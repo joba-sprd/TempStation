@@ -4,5 +4,11 @@ spring.datasource:
   password: "root"
   driverClassName: "com.mysql.jdbc.Driver"
 
+
+hibernate:
+  dialect: "org.hibernate.dialect.MySQL5Dialect"
+  hbm2ddlAuto: "validate"
+
+
 server:
   port: 8080
