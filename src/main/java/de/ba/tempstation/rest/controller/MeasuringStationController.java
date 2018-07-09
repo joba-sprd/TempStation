@@ -5,6 +5,7 @@ import de.ba.tempstation.db.repository.EntityRepository;
 import de.ba.tempstation.exception.NotFoundException;
 import de.ba.tempstation.rest.dto.CreationResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -13,13 +14,13 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/measuringStations", produces = "application/json")
+@RequestMapping(value = "/api/measuringStations", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MeasuringStationController {
 
     @Autowired
     EntityRepository<MeasuringStation> entityRepository;
 
-    @PostMapping(consumes = "application/json")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createMeasuringStation(@RequestBody MeasuringStation measuringStation, UriComponentsBuilder builder) {
         int id = entityRepository.insertEntity(measuringStation);
         URI uri = builder.path("/api/measuringStations/{id}").buildAndExpand(id).toUri();
