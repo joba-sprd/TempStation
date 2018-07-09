@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/measuringStations", produces = "application/json")
+@RequestMapping(value = "/api/measuringStations", produces = "application/json")
 public class MeasuringStationController {
 
     @Autowired
@@ -19,19 +19,19 @@ public class MeasuringStationController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity createMeasuringStation(@RequestBody MeasuringStation station) {
-        MeasuringStation measuringStation = measuringStationRepository.insertMeasuringStation(station);
+        MeasuringStation measuringStation = measuringStationRepository.insertEntity(station);
         return ResponseEntity.status(HttpStatus.CREATED).body(measuringStation);
     }
 
     @GetMapping
     public ResponseEntity getMeasuringStations(@RequestParam(value = "limit", required = false, defaultValue = "10") int limit) {
-        List<MeasuringStation> measuringStations = measuringStationRepository.getMeasuringStations(limit);
+        List<MeasuringStation> measuringStations = measuringStationRepository.getEntities(limit, MeasuringStation.class);
         return ResponseEntity.ok().body(measuringStations);
     }
 
     @GetMapping("/{measuringStationId}")
     public ResponseEntity getMeasuringStationById(@PathVariable("measuringStationId") int id) {
-        MeasuringStation measuringStation = measuringStationRepository.getMeasuringStationById(id);
+        MeasuringStation measuringStation = measuringStationRepository.getEntityById(id, MeasuringStation.class);
         if (measuringStation == null) {
             throw new NotFoundException();
         }
