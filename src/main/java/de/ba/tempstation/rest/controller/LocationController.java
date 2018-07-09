@@ -42,5 +42,4 @@ public class LocationController {
         }
         return ResponseEntity.ok().body(location);
     }
-
 }

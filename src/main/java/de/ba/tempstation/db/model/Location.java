@@ -19,27 +19,10 @@ public class Location extends Base {
     @Column(name = "gps")
     private String gps;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "location_category",
-            joinColumns = {@JoinColumn(name = "location_id")},
-            inverseJoinColumns = {@JoinColumn(name = "category_id")}
-    )
-    private Set<Category> categories;
-
     @OneToMany(mappedBy = "location", fetch = FetchType.EAGER)
     private Set<CriticalValue> criticalValues;
 
     public Location() {
-    }
-
-    //region Getter/Setter
-    public Set<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
     }
 
     public Set<CriticalValue> getCriticalValues() {

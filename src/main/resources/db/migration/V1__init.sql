@@ -43,6 +43,7 @@ CREATE TABLE `category` (
 CREATE TABLE `location_category` (
 	`location_id` INT NOT NULL,
 	`category_id` INT NOT NULL,
+	PRIMARY KEY (`location_id`, `category_id`),
 	FOREIGN KEY (location_id) REFERENCES location (location_id),
 	FOREIGN KEY (category_id) REFERENCES category (category_id)
 )

@@ -1,7 +1,6 @@
 package de.ba.tempstation.db.model;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,8 +15,13 @@ public class Category {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
-    private Set<Location> locations = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "location_category",
+            joinColumns = {@JoinColumn(name = "category_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "location_id", nullable = false, updatable = false)}
+    )
+    private Set<Location> locations;
 
     public Category() {
     }
