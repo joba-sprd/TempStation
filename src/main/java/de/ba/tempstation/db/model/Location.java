@@ -20,7 +20,7 @@ public class Location extends Base {
     @Column(name = "gps")
     private String gps;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "location_category",
             joinColumns = {@JoinColumn(name = "location_id")},
@@ -28,7 +28,7 @@ public class Location extends Base {
     )
     private Set<Category> categories = new HashSet<>();
 
-    @OneToMany(mappedBy = "location")
+    @OneToMany(mappedBy = "location", fetch = FetchType.EAGER)
     private Set<CriticalValue> criticalValues;
 
     public Location() {
