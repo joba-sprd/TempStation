@@ -1,8 +1,8 @@
 CREATE TABLE `settings` (
-	`settings_id`      INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	`measure_duration` INT          NOT NULL,
-	`date_created`     TIMESTAMP(3) NOT NULL             DEFAULT CURRENT_TIMESTAMP(3),
-	`date_modified`    TIMESTAMP(3) NOT NULL             DEFAULT CURRENT_TIMESTAMP(3)
+	`settings_id`        INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`measure_duration`   INT          NOT NULL,
+	`date_created`       TIMESTAMP(3) NOT NULL             DEFAULT CURRENT_TIMESTAMP(3),
+	`date_modified`      TIMESTAMP(3) NOT NULL             DEFAULT CURRENT_TIMESTAMP(3)
 	ON UPDATE CURRENT_TIMESTAMP(3)
 )
 	ENGINE = InnoDB
@@ -85,7 +85,8 @@ CREATE TABLE `critical_value` (
 	`critical_value_id` INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	`location_id`       INT          NOT NULL,
 	`unit_id`           INT          NOT NULL,
-	`value`             FLOAT        NOT NULL,
+	`min_value`         FLOAT        NOT NULL,
+	`max_value`         FLOAT        NOT NULL,
 	`date_created`      TIMESTAMP(3) NOT NULL             DEFAULT CURRENT_TIMESTAMP(3),
 	`date_modified`     TIMESTAMP(3) NOT NULL             DEFAULT CURRENT_TIMESTAMP(3)
 	ON UPDATE CURRENT_TIMESTAMP(3),

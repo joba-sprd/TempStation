@@ -19,8 +19,11 @@ public class CriticalValue {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-    @Column(name = "value", nullable = false)
-    private Float value;
+    @Column(name = "min_value", nullable = false)
+    private Float minValue;
+
+    @Column(name = "max_value", nullable = false)
+    private Float maxValue;
 
     public CriticalValue() {
     }
@@ -50,12 +53,21 @@ public class CriticalValue {
         this.unit = unit;
     }
 
-    public Float getValue() {
-        return value;
+    public Float getMinValue() {
+        return minValue;
     }
 
-    public void setValue(Float value) {
-        this.value = value;
+    public void setMinValue(Float minValue) {
+        this.minValue = minValue;
     }
+
+    public Float getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(Float maxValue) {
+        this.maxValue = maxValue;
+    }
+
     //endregion
 }
