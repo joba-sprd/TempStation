@@ -3,6 +3,7 @@ package de.ba.tempstation.rest.controller;
 import de.ba.tempstation.db.model.Location;
 import de.ba.tempstation.db.repository.EntityRepository;
 import de.ba.tempstation.exception.NotFoundException;
+import de.ba.tempstation.rest.dto.CreationResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,10 @@ public class LocationController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity createLocation(@RequestBody Location location, UriComponentsBuilder builder) {
-        Location createdLocation = entityRepository.insertEntity(location);
-        URI uri = builder.path("api/locations/{id}").buildAndExpand(createdLocation.getId()).toUri();
-        return ResponseEntity.created(uri).body(createdLocation);
+        int id = entityRepository.insertEntity(location);
+        URI uri = builder.path("api/locations/{id}").buildAndExpand(id).toUri();
+        CreationResponseDTO creationResponse = new CreationResponseDTO(id, uri);
+        return ResponseEntity.created(uri).body(creationResponse);
     }
 
     @GetMapping

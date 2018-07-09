@@ -14,7 +14,7 @@ public class MeasuringStation extends Base {
     @Column(name = "hardware_id", nullable = false, unique = true)
     private String hardwareId;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "settings_id")
     private Settings settings;
 

@@ -1,8 +1,8 @@
 CREATE TABLE `settings` (
-	`settings_id`        INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	`measure_duration`   INT          NOT NULL,
-	`date_created`       TIMESTAMP(3) NOT NULL             DEFAULT CURRENT_TIMESTAMP(3),
-	`date_modified`      TIMESTAMP(3) NOT NULL             DEFAULT CURRENT_TIMESTAMP(3)
+	`settings_id`      INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`measure_duration` INT          NOT NULL,
+	`date_created`     TIMESTAMP(3) NOT NULL             DEFAULT CURRENT_TIMESTAMP(3),
+	`date_modified`    TIMESTAMP(3) NOT NULL             DEFAULT CURRENT_TIMESTAMP(3)
 	ON UPDATE CURRENT_TIMESTAMP(3)
 )
 	ENGINE = InnoDB

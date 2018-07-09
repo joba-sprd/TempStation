@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.io.Serializable;
 import java.util.List;
 
 @Repository
@@ -17,15 +18,15 @@ public class EntityRepository<T> {
     @Autowired
     SessionFactory sessionFactory;
 
-    public T insertEntity(T entity) {
+    public Integer insertEntity(T entity) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.save(entity);
+        Serializable id = session.save(entity);
 
         transaction.commit();
         session.close();
 
-        return entity;
+        return (Integer) id;
     }
 
     public List<T> getEntities(int limit, Class<T> entityClass) {
