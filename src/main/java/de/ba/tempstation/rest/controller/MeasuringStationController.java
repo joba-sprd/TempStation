@@ -32,7 +32,7 @@ public class MeasuringStationController {
     }
 
     @GetMapping("/{measuringStationId}")
-    public ResponseEntity getMeasuringStationById(@PathVariable("measuringStationId") int id) {
+    public ResponseEntity getMeasuringStation(@PathVariable("measuringStationId") int id) {
         MeasuringStation measuringStation = entityRepository.getEntityById(id, MeasuringStation.class);
         if (measuringStation == null) {
             throw new NotFoundException();
