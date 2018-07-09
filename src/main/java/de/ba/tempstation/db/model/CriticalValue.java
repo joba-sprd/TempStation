@@ -20,7 +20,7 @@ public class CriticalValue {
     private Unit unit;
 
     @Column(name = "value", nullable = false)
-    private float value;
+    private Float value;
 
     public CriticalValue() {
     }
@@ -50,11 +50,11 @@ public class CriticalValue {
         this.unit = unit;
     }
 
-    public float getValue() {
+    public Float getValue() {
         return value;
     }
 
-    public void setValue(float value) {
+    public void setValue(Float value) {
         this.value = value;
     }
     //endregion

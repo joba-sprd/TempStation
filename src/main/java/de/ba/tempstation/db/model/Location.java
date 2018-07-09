@@ -2,7 +2,6 @@ package de.ba.tempstation.db.model;
 
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,7 +25,7 @@ public class Location extends Base {
             joinColumns = {@JoinColumn(name = "location_id")},
             inverseJoinColumns = {@JoinColumn(name = "category_id")}
     )
-    private Set<Category> categories = new HashSet<>();
+    private Set<Category> categories;
 
     @OneToMany(mappedBy = "location", fetch = FetchType.EAGER)
     private Set<CriticalValue> criticalValues;

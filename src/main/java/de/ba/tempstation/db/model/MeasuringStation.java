@@ -14,11 +14,11 @@ public class MeasuringStation extends Base {
     @Column(name = "hardware_id", nullable = false, unique = true)
     private String hardwareId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "settings_id")
     private Settings settings;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "location_id")
     private Location location;
 

@@ -13,7 +13,7 @@ public class Settings extends Base {
     private int id;
 
     @Column(name = "measure_duration", nullable = false)
-    private int measureDuration;
+    private Integer measureDuration;
 
     public Settings() {
     }
@@ -27,11 +27,11 @@ public class Settings extends Base {
         this.id = id;
     }
 
-    public int getMeasureDuration() {
+    public Integer getMeasureDuration() {
         return measureDuration;
     }
 
-    public void setMeasureDuration(int measureDuration) {
+    public void setMeasureDuration(Integer measureDuration) {
         this.measureDuration = measureDuration;
     }
     //endregion

@@ -13,7 +13,7 @@ public class MeasuringData extends Base {
     private int id;
 
     @Column(name = "value", nullable = false)
-    private float value;
+    private Float value;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "unit_id")
@@ -42,11 +42,11 @@ public class MeasuringData extends Base {
         this.id = id;
     }
 
-    public float getValue() {
+    public Float getValue() {
         return value;
     }
 
-    public void setValue(float value) {
+    public void setValue(Float value) {
         this.value = value;
     }
 

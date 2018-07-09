@@ -1,5 +1,7 @@
 package de.ba.tempstation.db.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
@@ -7,6 +9,7 @@ import javax.persistence.PreUpdate;
 import java.util.Date;
 
 @MappedSuperclass
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Base {
 
     @Column(name = "date_created")
