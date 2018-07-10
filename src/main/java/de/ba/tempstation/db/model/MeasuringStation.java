@@ -1,5 +1,7 @@
 package de.ba.tempstation.db.model;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import javax.persistence.*;
 
 @Entity
@@ -23,6 +25,10 @@ public class MeasuringStation extends Base {
     private Location location;
 
     public MeasuringStation() {}
+
+    public MeasuringStation(int id) {
+        this.id = id;
+    }
 
     //region Getter/Setter
     public int getId() {
@@ -55,6 +61,16 @@ public class MeasuringStation extends Base {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    @JsonSetter("locationId")
+    public void setLocationById(int locationId) {
+        this.location = new Location(locationId);
+    }
+
+    @JsonSetter("settingsId")
+    public void setSettingsById(int settingsId) {
+        this.settings = new Settings(settingsId);
     }
     //endregion
 }

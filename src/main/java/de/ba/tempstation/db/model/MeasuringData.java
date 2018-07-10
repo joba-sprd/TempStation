@@ -1,5 +1,7 @@
 package de.ba.tempstation.db.model;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -80,6 +82,21 @@ public class MeasuringData extends Base {
 
     public void setDateMeasured(Date dateMeasured) {
         this.dateMeasured = dateMeasured;
+    }
+
+    @JsonSetter("locationId")
+    public void setLocationById(int locationId) {
+        this.location = new Location(locationId);
+    }
+
+    @JsonSetter("measuringStationId")
+    public void setMeasuringStationById(int measuringStationId) {
+        this.measuringStation = new MeasuringStation(measuringStationId);
+    }
+
+    @JsonSetter("unitId")
+    public void setUnitById(int unitId) {
+        this.unit = new Unit(unitId);
     }
     //endregion
 }

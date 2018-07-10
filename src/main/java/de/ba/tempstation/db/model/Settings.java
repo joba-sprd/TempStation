@@ -18,6 +18,10 @@ public class Settings extends Base {
     public Settings() {
     }
 
+    public Settings(int id) {
+        this.id = id;
+    }
+
     //region Getter/Setter
     public int getId() {
         return id;

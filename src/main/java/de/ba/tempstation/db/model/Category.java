@@ -1,6 +1,9 @@
 package de.ba.tempstation.db.model;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -48,6 +51,15 @@ public class Category {
     }
 
     public void setLocations(Set<Location> locations) {
+        this.locations = locations;
+    }
+
+    @JsonSetter("locationIds")
+    public void setLocationsByIds(int[] locationIds) {
+        HashSet<Location> locations = new HashSet<>();
+        for (int locationId : locationIds) {
+            locations.add(new Location(locationId));
+        }
         this.locations = locations;
     }
     //endregion

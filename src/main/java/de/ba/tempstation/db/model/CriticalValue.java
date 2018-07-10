@@ -1,5 +1,7 @@
 package de.ba.tempstation.db.model;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import javax.persistence.*;
 
 @Entity
@@ -26,6 +28,10 @@ public class CriticalValue {
     private Float maxValue;
 
     public CriticalValue() {
+    }
+
+    public CriticalValue(int id) {
+        this.id = id;
     }
 
     //region Getter/Setter
@@ -69,5 +75,14 @@ public class CriticalValue {
         this.maxValue = maxValue;
     }
 
+    @JsonSetter("unitId")
+    public void setUnitById(int unitId) {
+        this.unit = new Unit(unitId);
+    }
+
+    @JsonSetter("locationId")
+    public void setLocationById(int locationId) {
+        this.location = new Location(locationId);
+    }
     //endregion
 }

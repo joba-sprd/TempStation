@@ -21,6 +21,10 @@ public class Unit extends Base {
     public Unit() {
     }
 
+    public Unit(int id) {
+        this.id = id;
+    }
+
     //region Getter/Setter
     public int getId() {
         return id;

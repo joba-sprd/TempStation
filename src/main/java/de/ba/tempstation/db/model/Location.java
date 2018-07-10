@@ -1,7 +1,10 @@
 package de.ba.tempstation.db.model;
 
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,6 +26,10 @@ public class Location extends Base {
     private Set<CriticalValue> criticalValues;
 
     public Location() {
+    }
+
+    public Location(int id) {
+        this.id = id;
     }
 
     public Set<CriticalValue> getCriticalValues() {
@@ -55,6 +62,15 @@ public class Location extends Base {
 
     public void setGps(String gps) {
         this.gps = gps;
+    }
+
+    @JsonSetter("criticalValueIds")
+    public void setCriticalValuesByIds(int[] criticalValueIds) {
+        HashSet<CriticalValue> criticalValues = new HashSet<>();
+        for (int criticalValueId : criticalValueIds) {
+            criticalValues.add(new CriticalValue(criticalValueId));
+        }
+        this.criticalValues = criticalValues;
     }
     //endregion
 }
