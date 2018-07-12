@@ -84,7 +84,7 @@ CREATE TABLE `measuring_data` (
 
 CREATE TABLE `critical_value` (
 	`critical_value_id` INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	`location_id`       INT          NOT NULL,
+	`location_id`       INT,
 	`unit_id`           INT          NOT NULL,
 	`min_value`         FLOAT        NOT NULL,
 	`max_value`         FLOAT        NOT NULL,

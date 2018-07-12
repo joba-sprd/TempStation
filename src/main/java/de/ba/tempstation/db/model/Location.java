@@ -22,7 +22,8 @@ public class Location extends Base {
     @Column(name = "gps")
     private String gps;
 
-    @OneToMany(mappedBy = "location", fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id")
     private Set<CriticalValue> criticalValues;
 
     public Location() {

@@ -6,18 +6,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "critical_value")
-public class CriticalValue {
+public class CriticalValue extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "critical_value_id", nullable = false, unique = true)
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name="location_id", nullable = false)
-    private Location location;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
@@ -41,14 +37,6 @@ public class CriticalValue {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
     }
 
     public Unit getUnit() {
@@ -78,11 +66,6 @@ public class CriticalValue {
     @JsonSetter("unitId")
     public void setUnitById(int unitId) {
         this.unit = new Unit(unitId);
-    }
-
-    @JsonSetter("locationId")
-    public void setLocationById(int locationId) {
-        this.location = new Location(locationId);
     }
     //endregion
 }
