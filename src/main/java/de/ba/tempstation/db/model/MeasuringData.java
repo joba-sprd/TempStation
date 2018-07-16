@@ -1,5 +1,8 @@
 package de.ba.tempstation.db.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import javax.persistence.*;
@@ -17,19 +20,20 @@ public class MeasuringData extends Base {
     @Column(name = "value", nullable = false)
     private Float value;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "measuring_station_id")
     private MeasuringStation measuringStation;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "location_id")
     private Location location;
 
     @Column(name = "date_measured", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Date dateMeasured;
 
     public MeasuringData() {
@@ -52,6 +56,7 @@ public class MeasuringData extends Base {
         this.value = value;
     }
 
+    @JsonIgnore
     public Unit getUnit() {
         return unit;
     }
@@ -60,6 +65,7 @@ public class MeasuringData extends Base {
         this.unit = unit;
     }
 
+    @JsonIgnore
     public MeasuringStation getMeasuringStation() {
         return measuringStation;
     }
@@ -68,6 +74,7 @@ public class MeasuringData extends Base {
         this.measuringStation = measuringStation;
     }
 
+    @JsonIgnore
     public Location getLocation() {
         return location;
     }
@@ -84,14 +91,29 @@ public class MeasuringData extends Base {
         this.dateMeasured = dateMeasured;
     }
 
+    @JsonGetter("locationId")
+    public int getLocationId() {
+        return this.location.getId();
+    }
+
     @JsonSetter("locationId")
     public void setLocationById(int locationId) {
         this.location = new Location(locationId);
     }
 
+    @JsonGetter("measuringStationId")
+    public int getMeasuringStationId() {
+        return this.measuringStation.getId();
+    }
+
     @JsonSetter("measuringStationId")
     public void setMeasuringStationById(int measuringStationId) {
         this.measuringStation = new MeasuringStation(measuringStationId);
+    }
+
+    @JsonGetter("unitId")
+    public int getUnitById() {
+        return this.unit.getId();
     }
 
     @JsonSetter("unitId")
