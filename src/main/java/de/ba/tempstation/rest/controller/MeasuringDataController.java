@@ -1,5 +1,6 @@
 package de.ba.tempstation.rest.controller;
 
+import de.ba.tempstation.client.WebSocketClient;
 import de.ba.tempstation.db.model.MeasuringData;
 import de.ba.tempstation.db.model.MeasuringStation;
 import de.ba.tempstation.db.repository.EntityRepository;
@@ -9,6 +10,7 @@ import de.ba.tempstation.rest.dto.CreationResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,10 +23,13 @@ import java.util.List;
 public class MeasuringDataController {
 
     @Autowired
-    MeasuringDataRepository measuringDataRepository;
+    private MeasuringDataRepository measuringDataRepository;
 
     @Autowired
-    EntityRepository<MeasuringStation> entityRepository;
+    private EntityRepository<MeasuringStation> entityRepository;
+
+    @Autowired
+    private WebSocketClient webSocketClient;
 
     @PostMapping(value = "/measuringStations/{measuringStationId}/measuringData", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createMeasuringData(@RequestBody MeasuringData measuringData,
@@ -36,8 +41,12 @@ public class MeasuringDataController {
             throw new NotFoundException();
         }
 
+        measuringData.setMeasuringStationById(measuringStation.getId());
         measuringData.setLocationById(measuringStation.getLocation().getId());
         int id = measuringDataRepository.insertEntity(measuringData);
+
+        webSocketClient.sendMeasuringData(id);
+
         URI uri = builder.path("api/measuringStations/{measuringStationId}/measuringData/{id}").buildAndExpand(measuringStationId, id).toUri();
         CreationResponseDTO creationResponse = new CreationResponseDTO(id, uri);
         return ResponseEntity.created(uri).body(creationResponse);
@@ -69,10 +78,10 @@ public class MeasuringDataController {
     }
 
     @GetMapping("/locations/{locationId}/measuringData/{measuringDataId}")
-    public ResponseEntity getMeasuringDataByLocationId(@PathVariable("locationId") int loactionId,
+    public ResponseEntity getMeasuringDataByLocationId(@PathVariable("locationId") int locationId,
                                                        @PathVariable("measuringDataId") int measuringDataId) {
         MeasuringData measuringData = measuringDataRepository.getEntityById(measuringDataId, MeasuringData.class);
-        if (measuringData == null || measuringData.getLocationId() != loactionId) {
+        if (measuringData == null || measuringData.getLocationId() != locationId) {
             throw new NotFoundException();
         }
         return ResponseEntity.ok().body(measuringData);
