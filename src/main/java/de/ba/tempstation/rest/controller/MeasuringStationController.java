@@ -2,6 +2,7 @@ package de.ba.tempstation.rest.controller;
 
 import de.ba.tempstation.db.model.MeasuringStation;
 import de.ba.tempstation.db.repository.EntityRepository;
+import de.ba.tempstation.db.repository.MeasuringStationRepository;
 import de.ba.tempstation.exception.NotFoundException;
 import de.ba.tempstation.rest.dto.CreationResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,25 +19,35 @@ import java.util.List;
 public class MeasuringStationController {
 
     @Autowired
-    EntityRepository<MeasuringStation> entityRepository;
+    MeasuringStationRepository measuringStationRepository;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createMeasuringStation(@RequestBody MeasuringStation measuringStation, UriComponentsBuilder builder) {
-        int id = entityRepository.insertEntity(measuringStation);
+        int id = measuringStationRepository.insertEntity(measuringStation);
         URI uri = builder.path("/api/measuringStations/{id}").buildAndExpand(id).toUri();
         CreationResponseDTO creationResponse = new CreationResponseDTO(id, uri);
         return ResponseEntity.created(uri).body(creationResponse);
     }
 
     @GetMapping
-    public ResponseEntity getMeasuringStations(@RequestParam(value = "limit", required = false, defaultValue = "10") int limit) {
-        List<MeasuringStation> measuringStations = entityRepository.getEntities(limit, MeasuringStation.class);
-        return ResponseEntity.ok().body(measuringStations);
+    public ResponseEntity getMeasuringStations(@RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
+                                               @RequestParam(value = "hardwareId", required = false) String hardwareId) {
+
+        if (hardwareId != null) {
+            MeasuringStation measuringStation = measuringStationRepository.getMeasuringStationByHardwareId(hardwareId);
+            if (measuringStation == null) {
+                throw new NotFoundException();
+            }
+            return ResponseEntity.ok().body(measuringStation);
+        } else {
+            List<MeasuringStation> measuringStations = measuringStationRepository.getEntities(limit, MeasuringStation.class);
+            return ResponseEntity.ok().body(measuringStations);
+        }
     }
 
     @GetMapping("/{measuringStationId}")
     public ResponseEntity getMeasuringStation(@PathVariable("measuringStationId") int id) {
-        MeasuringStation measuringStation = entityRepository.getEntityById(id, MeasuringStation.class);
+        MeasuringStation measuringStation = measuringStationRepository.getEntityById(id, MeasuringStation.class);
         if (measuringStation == null) {
             throw new NotFoundException();
         }
