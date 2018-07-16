@@ -96,7 +96,6 @@ public class MeasuringData extends Base {
         return this.location.getId();
     }
 
-    @JsonSetter("locationId")
     public void setLocationById(int locationId) {
         this.location = new Location(locationId);
     }

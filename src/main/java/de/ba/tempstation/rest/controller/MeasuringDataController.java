@@ -1,6 +1,8 @@
 package de.ba.tempstation.rest.controller;
 
 import de.ba.tempstation.db.model.MeasuringData;
+import de.ba.tempstation.db.model.MeasuringStation;
+import de.ba.tempstation.db.repository.EntityRepository;
 import de.ba.tempstation.db.repository.MeasuringDataRepository;
 import de.ba.tempstation.exception.NotFoundException;
 import de.ba.tempstation.rest.dto.CreationResponseDTO;
@@ -21,10 +23,20 @@ public class MeasuringDataController {
     @Autowired
     MeasuringDataRepository measuringDataRepository;
 
+    @Autowired
+    EntityRepository<MeasuringStation> entityRepository;
+
     @PostMapping(value = "/measuringStations/{measuringStationId}/measuringData", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createMeasuringData(@RequestBody MeasuringData measuringData,
                                               @PathVariable("measuringStationId") int measuringStationId,
                                               UriComponentsBuilder builder) {
+
+        MeasuringStation measuringStation = entityRepository.getEntityById(measuringStationId, MeasuringStation.class);
+        if(measuringStation == null) {
+            throw new NotFoundException();
+        }
+
+        measuringData.setLocationById(measuringStation.getLocation().getId());
         int id = measuringDataRepository.insertEntity(measuringData);
         URI uri = builder.path("api/measuringStations/{measuringStationId}/measuringData/{id}").buildAndExpand(measuringStationId, id).toUri();
         CreationResponseDTO creationResponse = new CreationResponseDTO(id, uri);
