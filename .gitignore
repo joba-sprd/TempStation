@@ -9,3 +9,4 @@ out
 gen
 /application.yml
 /target
+/deployment/
