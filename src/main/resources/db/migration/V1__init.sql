@@ -6,7 +6,7 @@ CREATE TABLE `settings` (
 	ON UPDATE CURRENT_TIMESTAMP(3)
 )
 	ENGINE = InnoDB
-	DEFAULT CHARSET = utf8;
+	DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `unit` (
 	`unit_id`             INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -17,7 +17,7 @@ CREATE TABLE `unit` (
 	ON UPDATE CURRENT_TIMESTAMP(3)
 )
 	ENGINE = InnoDB
-	DEFAULT CHARSET = utf8;
+	DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `location` (
 	`location_id`   INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -28,7 +28,7 @@ CREATE TABLE `location` (
 	ON UPDATE CURRENT_TIMESTAMP(3)
 )
 	ENGINE = InnoDB
-	DEFAULT CHARSET = utf8;
+	DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `category` (
 	`category_id`   INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -38,7 +38,7 @@ CREATE TABLE `category` (
 	ON UPDATE CURRENT_TIMESTAMP(3)
 )
 	ENGINE = InnoDB
-	DEFAULT CHARSET = utf8;
+	DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `location_category` (
 	`location_id` INT NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE `location_category` (
 	FOREIGN KEY (category_id) REFERENCES category (category_id)
 )
 	ENGINE = InnoDB
-	DEFAULT CHARSET = utf8;
+	DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `measuring_station` (
 	`measuring_station_id` INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -62,7 +62,7 @@ CREATE TABLE `measuring_station` (
 	FOREIGN KEY (location_id) REFERENCES location (location_id)
 )
 	ENGINE = InnoDB
-	DEFAULT CHARSET = utf8;
+	DEFAULT CHARSET = utf8mb4;
 
 
 CREATE TABLE `measuring_data` (
@@ -80,7 +80,7 @@ CREATE TABLE `measuring_data` (
 	FOREIGN KEY (location_id) REFERENCES location (location_id)
 )
 	ENGINE = InnoDB
-	DEFAULT CHARSET = utf8;
+	DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `critical_value` (
 	`critical_value_id` INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -95,4 +95,4 @@ CREATE TABLE `critical_value` (
 	FOREIGN KEY (unit_id) REFERENCES unit (unit_id)
 )
 	ENGINE = InnoDB
-	DEFAULT CHARSET = utf8;
+	DEFAULT CHARSET = utf8mb4;
