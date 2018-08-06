@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -34,7 +35,7 @@ public class MeasuringData extends Base {
 
     @Column(name = "date_measured", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
-    private Date dateMeasured;
+    private Date dateMeasured = Calendar.getInstance().getTime();
 
     public MeasuringData() {
     }
