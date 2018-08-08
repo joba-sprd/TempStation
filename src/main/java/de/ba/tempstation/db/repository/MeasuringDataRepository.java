@@ -1,6 +1,7 @@
 package de.ba.tempstation.db.repository;
 
 import de.ba.tempstation.db.model.MeasuringData;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -21,41 +22,73 @@ public class MeasuringDataRepository extends EntityRepository<MeasuringData> {
     SessionFactory sessionFactory;
 
     public List<MeasuringData> getMeasuringDataByLocationId(int locationId, int unitId, Calendar from, Calendar to) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = null;
+        Transaction transaction = null;
+        List<MeasuringData> measuringData = null;
 
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<MeasuringData> query = builder.createQuery(MeasuringData.class);
-        Root<MeasuringData> root = query.from(MeasuringData.class);
-        query.select(root);
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
 
-        Predicate equalLocationId = builder.equal(root.get("location"), locationId);
-        Predicate equalUnitId = builder.equal(root.get("unit"), unitId);
-        Predicate dateMeasured = builder.between(root.get("dateMeasured"), from.getTime(), to.getTime());
-        Predicate predicate = builder.and(equalLocationId, equalUnitId, dateMeasured);
-        query.where(predicate);
-        List<MeasuringData> measuringData = session.createQuery(query).list();
-        transaction.commit();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<MeasuringData> query = builder.createQuery(MeasuringData.class);
+            Root<MeasuringData> root = query.from(MeasuringData.class);
+            query.select(root);
+
+            Predicate equalLocationId = builder.equal(root.get("location"), locationId);
+            Predicate equalUnitId = builder.equal(root.get("unit"), unitId);
+            Predicate dateMeasured = builder.between(root.get("dateMeasured"), from.getTime(), to.getTime());
+            Predicate predicate = builder.and(equalLocationId, equalUnitId, dateMeasured);
+            query.where(predicate);
+            measuringData = session.createQuery(query).list();
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
 
         return measuringData;
     }
 
     public List<MeasuringData> getMeasuringDataByMeasuringStationId(int measuringStationId, int unitId, Calendar from, Calendar to) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = null;
+        Transaction transaction = null;
+        List<MeasuringData> measuringData = null;
 
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<MeasuringData> query = builder.createQuery(MeasuringData.class);
-        Root<MeasuringData> root = query.from(MeasuringData.class);
-        query.select(root);
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
 
-        Predicate equalMeasuringStationId = builder.equal(root.get("measuringStation"), measuringStationId);
-        Predicate equalUnitId = builder.equal(root.get("unit"), unitId);
-        Predicate dateMeasured = builder.between(root.get("dateMeasured"), from.getTime(), to.getTime());
-        Predicate predicate = builder.and(equalMeasuringStationId, equalUnitId, dateMeasured);
-        query.where(predicate);
-        List<MeasuringData> measuringData = session.createQuery(query).list();
-        transaction.commit();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<MeasuringData> query = builder.createQuery(MeasuringData.class);
+            Root<MeasuringData> root = query.from(MeasuringData.class);
+            query.select(root);
+
+            Predicate equalMeasuringStationId = builder.equal(root.get("measuringStation"), measuringStationId);
+            Predicate equalUnitId = builder.equal(root.get("unit"), unitId);
+            Predicate dateMeasured = builder.between(root.get("dateMeasured"), from.getTime(), to.getTime());
+            Predicate predicate = builder.and(equalMeasuringStationId, equalUnitId, dateMeasured);
+            query.where(predicate);
+            measuringData = session.createQuery(query).list();
+
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
 
         return measuringData;
     }

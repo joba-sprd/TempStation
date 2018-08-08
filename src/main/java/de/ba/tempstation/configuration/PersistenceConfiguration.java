@@ -1,6 +1,5 @@
 package de.ba.tempstation.configuration;
 
-import de.ba.tempstation.configuration.properties.HibernateProperties;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -22,9 +21,6 @@ public class PersistenceConfiguration {
     @Autowired
     private DataSource dataSource;
 
-    @Autowired
-    private HibernateProperties hibernateProperties;
-
     @Bean(initMethod = "migrate")
     public Flyway flyway() {
         final Flyway flyway = new Flyway();
@@ -38,7 +34,6 @@ public class PersistenceConfiguration {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
         sessionFactory.setPackagesToScan("de.ba.tempstation.db.model");
-        sessionFactory.setHibernateProperties(hibernateProperties.getProperties());
         return sessionFactory;
     }
 

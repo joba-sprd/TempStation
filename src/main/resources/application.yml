@@ -1,14 +1,15 @@
-spring.datasource:
-  url: "jdbc:mysql://localhost/tempstation?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true"
-  username: "root"
-  password: "root"
-  driverClassName: "com.mysql.jdbc.Driver"
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost/tempstation?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true"
+    username: "root"
+    password: "root"
+    driverClassName: "com.mysql.jdbc.Driver"
+  jpa:
+    properties.hibernate:
+      dialect: "org.hibernate.dialect.MySQL5Dialect"
+      hbm2ddl.auto: "validate"
+      connection.release_mode: "on_close"
 
-
-hibernate:
-  dialect: "org.hibernate.dialect.MySQL5Dialect"
-  hbm2ddlAuto: "validate"
-  connectionReleaseMode: "ON_CLOSE"
 
 server:
   port: 8080

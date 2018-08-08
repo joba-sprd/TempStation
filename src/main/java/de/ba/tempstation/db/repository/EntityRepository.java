@@ -1,5 +1,6 @@
 package de.ba.tempstation.db.repository;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -19,44 +20,87 @@ public class EntityRepository<T> {
     SessionFactory sessionFactory;
 
     public Integer insertEntity(T entity) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        Serializable id = session.save(entity);
+        Session session = null;
+        Transaction transaction = null;
+        Serializable id = null;
 
-        transaction.commit();
-        session.close();
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+
+            id = session.save(entity);
+
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
 
         return (Integer) id;
     }
 
     public List<T> getEntities(int limit, Class<T> entityClass) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = null;
+        Transaction transaction = null;
+        List<T> entities = null;
 
-        CriteriaQuery<T> query = session.getCriteriaBuilder().createQuery(entityClass);
-        Root<T> root = query.from(entityClass);
-        query.select(root);
-        List<T> entities = session.createQuery(query).setMaxResults(limit).list();
 
-        transaction.commit();
-        session.close();
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+
+            CriteriaQuery<T> query = session.getCriteriaBuilder().createQuery(entityClass);
+            Root<T> root = query.from(entityClass);
+            query.select(root);
+            entities = session.createQuery(query).setMaxResults(limit).list();
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
 
         return entities;
     }
 
     public T getEntityById(int id, Class<T> entityClass) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = null;
+        Transaction transaction = null;
+        T entity = null;
 
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<T> query = builder.createQuery(entityClass);
-        Root<T> root = query.from(entityClass);
-        query.select(root);
-        query.where(builder.equal(root.get("id"), id));
-        T entity = session.createQuery(query).uniqueResult();
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
 
-        transaction.commit();
-        session.close();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<T> query = builder.createQuery(entityClass);
+            Root<T> root = query.from(entityClass);
+            query.select(root);
+            query.where(builder.equal(root.get("id"), id));
+            entity = session.createQuery(query).uniqueResult();
+
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
 
         return entity;
     }
