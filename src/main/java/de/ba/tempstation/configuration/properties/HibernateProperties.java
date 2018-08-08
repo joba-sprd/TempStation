@@ -17,10 +17,14 @@ public class HibernateProperties {
     @NotEmpty
     private String hbm2ddlAuto;
 
+    @NotEmpty
+    private String connectionReleaseMode;
+
     public Properties getProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", dialect);
         properties.setProperty("hibernate.hbm2ddl.auto", hbm2ddlAuto);
+        properties.setProperty("hibernate.connection.release_mode", connectionReleaseMode);
         return properties;
     }
 
@@ -40,5 +44,14 @@ public class HibernateProperties {
     public void setHbm2ddlAuto(String hbm2ddlAuto) {
         this.hbm2ddlAuto = hbm2ddlAuto;
     }
+
+    public String getConnectionReleaseMode() {
+        return connectionReleaseMode;
+    }
+
+    public void setConnectionReleaseMode(String connectionReleaseMode) {
+        this.connectionReleaseMode = connectionReleaseMode;
+    }
+
     //endregion
 }

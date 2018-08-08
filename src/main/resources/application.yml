@@ -8,7 +8,10 @@ spring.datasource:
 hibernate:
   dialect: "org.hibernate.dialect.MySQL5Dialect"
   hbm2ddlAuto: "validate"
-
+  connectionReleaseMode: "ON_CLOSE"
 
 server:
   port: 8080
+logging.level:
+    org.springframework.web: DEBUG
+    org.hibernate: ERROR
