@@ -15,6 +15,8 @@ public class WebSocketClient {
 
     public void sendMeasuringData(int measuringDataId) {
         MeasuringData measuringData = entityRepository.getEntityById(measuringDataId, MeasuringData.class);
+        messagingTemplate.convertAndSend("/topic/data", measuringData);
         messagingTemplate.convertAndSend("/topic/data/location/" + measuringData.getLocationId(), measuringData);
+        messagingTemplate.convertAndSend("/topic/data/location/" + measuringData.getLocationId() + "/unit/" + measuringData.getUnit().getId(), measuringData);
     }
 }
