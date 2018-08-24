@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "category", uniqueConstraints = {@UniqueConstraint(columnNames = {"category_id"})})
-public class Category {
+public class Category extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
